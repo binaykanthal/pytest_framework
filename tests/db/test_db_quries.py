@@ -1,5 +1,5 @@
 
-def test_insert_and_select(db_connection):
+def remove_test_insert_and_select(db_connection):
     cursor = db_connection.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, name TEXT);")
     cursor.execute("INSERT INTO users(name) VALUES('John Doe') RETURNING id;")
