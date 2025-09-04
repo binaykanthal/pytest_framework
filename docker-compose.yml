@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:14
+    container_name: pytest_db
+    environment:
+      POSTGRES_USER: pytest_user
+      POSTGRES_PASSWORD: pytest_pass
+      POSTGRES_DB: pytest_db
+    ports:
+      - "5432:5432"

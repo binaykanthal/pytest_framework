@@ -1,0 +1,7 @@
+pytest
+selenium
+requests
+psycopg2-binary
+pytest-html
+pytest-xdist
+responses
