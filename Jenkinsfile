@@ -10,9 +10,9 @@ pipeline {
 
         stage('Set up Python') {
             steps {
-                sh '''
-                python3 -m venv venv
-                source venv/bin/activate
+                bat '''
+                python -m venv venv
+                call venv\\Scripts\\activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
                 '''
@@ -21,31 +21,33 @@ pipeline {
 
         stage('Start PostgreSQL') {
             steps {
-                sh '''
+                bat '''
                 docker-compose up -d
-                sleep 10  # wait for DB to be ready
+                timeout /t 10 /nobreak
                 '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                mkdir -p reports
-                .venv/Scripts/python -m pytest --junitxml=reports/results.xml --maxfail=1 --disable-warnings -v
+                bat '''
+                mkdir reports
+                call venv\\Scripts\\activate
+                pytest --junitxml=reports\\results.xml --maxfail=1 --disable-warnings -v
                 '''
             }
         }
 
         stage('Tear Down') {
             steps {
-                sh 'docker-compose down'
+                bat 'docker-compose down'
             }
         }
     }
+
     post {
         always {
-            junit 'reports/*.xml'
+            junit 'reports\\*.xml'
         }
     }
 }
