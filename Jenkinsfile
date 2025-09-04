@@ -19,14 +19,7 @@ pipeline {
             }
         }
 
-        stage('Start PostgreSQL') {
-            steps {
-                bat '''
-                docker-compose up -d
-                timeout /t 10 /nobreak
-                '''
-            }
-        }
+
 
         stage('Run Tests') {
             steps {
@@ -38,11 +31,7 @@ pipeline {
             }
         }
 
-        stage('Tear Down') {
-            steps {
-                bat 'docker-compose down'
-            }
-        }
+
     }
 
     post {
